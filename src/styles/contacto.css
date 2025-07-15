@@ -1,0 +1,20 @@
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.close {
+    color: red;
+    cursor: pointer;
+    padding: 3px;
+    margin-left: 10px;
+}
+
+.edit {
+    color: orange;
+    cursor: pointer;
+    padding: 3px;
+    margin-left: 10px;
+}
