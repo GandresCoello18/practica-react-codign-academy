@@ -1,8 +1,10 @@
 import { Container, Row, Col, Form, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
+import { MeContext } from '../context/me.provider.context';
 
-export function LoginView() {
+function LoginView() {
+  const { setMe } = useContext(MeContext);
   const navigate = useNavigate(); // HOOKS
   const [form, setForm] = useState({
     email: '',
@@ -29,8 +31,9 @@ export function LoginView() {
     }
 
     alert('Bienvenido');
+    setMe({ email, password });
+    localStorage.setItem('user-auth', JSON.stringify({ email, password }));
     navigate('/home');
-    localStorage.setItem('user-auth', true);
   };
 
   return (
@@ -70,3 +73,5 @@ export function LoginView() {
     </Container>
   );
 }
+
+export default LoginView;
