@@ -22,7 +22,7 @@ export const CartPage = () => {
                         <CardProduct
                             image={product.image}
                             title={product.title}
-                            description={product.description}
+                            price={product.price}
                             clickRemoveToCart={() => removeToCart(product.id)}
                         />
                     </Col>

@@ -10,6 +10,7 @@ import { FormHookView } from '../view/form_hook';
 import { lazy, Suspense } from 'react';
 
 const LoginView = lazy(() => import('../view/Login'));
+const ProductIdView = lazy(() => import('../view/productId'));
 
 export const RouterApp = () => {
   return (
@@ -19,6 +20,7 @@ export const RouterApp = () => {
           <Route path="/login" element={<LoginView />} />
           <Route path="/home" element={<HomeView />} />
           <Route path="/cart" element={<CartPage />} />
+          <Route path="/product/:id" element={<ProductIdView />} />
           <Route path="/contacts" element={<ContactView />} />
           <Route path="/contador" element={<ContadorView />} />
           <Route path="/form-hook" element={<FormHookView />} />
