@@ -15,3 +15,16 @@ export const getProductsAxios = async () => {
 export const getProductByIdAxios = async ({ id }) => {
   return (await axios.get(`${BASE_URL}/api/v1/products/${id}`)).data;
 }
+
+export const newProductAxios = async ({ data }) => {
+  const response = await axios.post(`${BASE_URL}/api/v1/products`, data, {
+    headers: {
+      'Content-Type': 'multipart/form-data'
+    }
+  });
+  return response.data;
+}
+
+export const deleteProductByIdAxios = async ({ id }) => {
+  return await axios.delete(`${BASE_URL}/api/v1/products/${id}`);
+}

@@ -1,6 +1,8 @@
 import { MainLayout } from '../layout/main.layout';
-import { BASE_URL, getProductByIdAxios } from '../api/product.api';
+import { BASE_URL, getProductByIdAxios, deleteProductByIdAxios } from '../api/product.api';
 import { CardProduct } from '../components/cardProduct';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'sonner';
 import { Col, Container, Row } from 'react-bootstrap';
 import { useEffect, useState, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
@@ -13,8 +15,10 @@ import { useParams } from 'react-router-dom';
 */
 
 const ProductIdPage = () => {
+    const navigate = useNavigate();
     const productId = useParams().id;
     const [loading, setLoading] = useState(false);
+    const [loadingRemove, setLoadingRemove] = useState(false);
     const [product, setProduct] = useState(null);
 
     const fetchProductById = useCallback(async () => {
@@ -23,7 +27,7 @@ const ProductIdPage = () => {
             const product = await getProductByIdAxios({ id: productId });
             setProduct(product);
         } catch (error) {
-            alert(error.message);
+            toast.error(error.message);
         } finally {
             setLoading(false);
         }
@@ -32,6 +36,21 @@ const ProductIdPage = () => {
     useEffect(() => {
         fetchProductById();
     }, [fetchProductById]);
+
+    const handleDeleteProduct = async () => {
+        if (loading) return;
+        setLoadingRemove(true);
+
+        try {
+            await deleteProductByIdAxios({ id: productId });
+            toast.success('Producto eliminado');
+            navigate('/home');
+        } catch (error) {
+            toast.error(error.message);
+        } finally {
+            setLoadingRemove(false);
+        }
+    }
 
     return (
         <MainLayout>
@@ -47,14 +66,18 @@ const ProductIdPage = () => {
                             <div className='bg-info p-5'>
                                 <h1>Cargando...</h1>
                             </div>
-                        ) : product ? <CardProduct
-                            id={product.id}
-                            image={`${BASE_URL}${product.image}`}
-                            title={product.title}
-                            price={product.price}
-                            rating={product.rating}
-                            clickAddToCart={() => console.log(product)}
-                        /> : (
+                        ) : product ? (
+                            <CardProduct
+                                id={product.id}
+                                image={`${BASE_URL}${product.image}`}
+                                title={product.title}
+                                price={product.price}
+                                loading={loading || loadingRemove}
+                                rating={product.rating}
+                                clickAddToCart={() => console.log(product)}
+                                clickRemoveProduct={handleDeleteProduct}
+                            />
+                        ) : (
                             <div className='bg-info p-5'>
                                 <h1>Producto no encontrado</h1>
                             </div>
