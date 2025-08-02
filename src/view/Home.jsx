@@ -45,7 +45,7 @@ export const HomeView = () => {
 
         {!loading && !products.length && (
           <Alert variant='info' className="text-center">
-            No hay productos
+            No hay productos disponibles
           </Alert>
         )}
 
