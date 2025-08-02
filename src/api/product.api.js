@@ -1,5 +1,5 @@
 import axios from 'axios';
-export const BASE_URL = 'http://localhost:8000';
+export const BASE_URL = process.env.REACT_APP_DOMAIN_SERVER;
 
 // Petición con Fetch, método nativo de JS 
 export const getProducts = async () => {
@@ -25,6 +25,11 @@ export const newProductAxios = async ({ data }) => {
   return response.data;
 }
 
+export const updateProductByIdAxios = async ({ id, data }) => {
+  const response = await axios.patch(`${BASE_URL}/api/v1/products/${id}`, data);
+  return response.data;
+}
+
 export const deleteProductByIdAxios = async ({ id }) => {
-  return await axios.delete(`${BASE_URL}/api/v1/products/${id}`);
+  await axios.delete(`${BASE_URL}/api/v1/products/${id}`);
 }

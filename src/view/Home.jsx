@@ -2,7 +2,7 @@ import { useContext, useState } from 'react';
 import { NewProduct } from '../components/NewProduct';
 import { useCartStore } from '../store/cart/useCartStore';
 import { MainLayout } from '../layout/main.layout';
-import { Container, Row, Col, Button, Modal } from 'react-bootstrap';
+import { Container, Row, Col, Button, Modal, Spinner, Alert } from 'react-bootstrap';
 import { BASE_URL, getProductsAxios } from '../api/product.api';
 import { CardProduct } from '../components/cardProduct';
 import { useEffect } from 'react';
@@ -31,17 +31,25 @@ export const HomeView = () => {
 
   return (
     <MainLayout>
-      <Container className="p-5" justifyContent="flex-end">
-        <Row>
-          <Col>
-            <Button onClick={() => setOpenNewProductModal(true)}>Agregar nuevo Producto</Button>
-          </Col>
-        </Row>
+      <Container className="p-3 d-flex justify-content-end">
+        <Button onClick={() => setOpenNewProductModal(true)}>Agregar nuevo Producto</Button>
       </Container>
-      <Container className="p-2">
-        {loading && <h1>Cargando...</h1>}
-        {!loading && !products.length && <h1>No hay productos</h1>}
-        <Row xs={1} sm={2} className="g-4">
+
+      <Container className="p-2 mb-4">
+        {loading && (
+          <div className="text-center my-5">
+            <Spinner animation='border' variant='primary' />
+            <p className='mt-2'>Cargando...</p>
+          </div>
+        )}
+
+        {!loading && !products.length && (
+          <Alert variant='info' className="text-center">
+            No hay productos
+          </Alert>
+        )}
+
+        <Row xs={1} sm={2} md={3} lg={4} className="g-4">
           {products.map(product => (
             <Col  key={product.id}>
               <CardProduct

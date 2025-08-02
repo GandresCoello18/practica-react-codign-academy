@@ -2,8 +2,9 @@ import { MainLayout } from '../layout/main.layout';
 import { BASE_URL, getProductByIdAxios, deleteProductByIdAxios } from '../api/product.api';
 import { CardProduct } from '../components/cardProduct';
 import { useNavigate } from 'react-router-dom';
+import { UpdateProduct } from '../components/UpdateProduct';
 import { toast } from 'sonner';
-import { Col, Container, Row } from 'react-bootstrap';
+import { Button, Col, Container, Row, Modal } from 'react-bootstrap';
 import { useEffect, useState, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 
@@ -19,6 +20,7 @@ const ProductIdPage = () => {
     const productId = useParams().id;
     const [loading, setLoading] = useState(false);
     const [loadingRemove, setLoadingRemove] = useState(false);
+    const [openUpdateProductModal, setOpenUpdateProductModal] = useState(false);
     const [product, setProduct] = useState(null);
 
     const fetchProductById = useCallback(async () => {
@@ -56,9 +58,13 @@ const ProductIdPage = () => {
         <MainLayout>
             <Container>
                 <Row>
-                    <Col><h1>Producto **</h1></Col>
+                    <Col><h1>Producto: {product?.title}</h1></Col>
+                    <Col>
+                        <Button variant='primary' onClick={() => setOpenUpdateProductModal(true)}>Actualizar Producto</Button>
+                    </Col>
                 </Row>
             </Container>
+
             <Container className="p-5">
                 <Row>
                     <Col>
@@ -85,6 +91,18 @@ const ProductIdPage = () => {
                     </Col>
                 </Row>
             </Container>
+
+            <Modal show={openUpdateProductModal} onHide={() => setOpenUpdateProductModal(false)}>
+                <Modal.Header>
+                    <Modal.Title>Actualizar Producto</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <UpdateProduct product={product} setOpenModal={setOpenUpdateProductModal} setProduct={setProduct} />
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={() => setOpenUpdateProductModal(false)}>Cerrar</Button>
+                </Modal.Footer>
+            </Modal>
         </MainLayout>
     )
 }
