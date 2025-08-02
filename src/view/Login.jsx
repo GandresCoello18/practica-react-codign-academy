@@ -35,7 +35,7 @@ function LoginView() {
     toast.info('Bienvenido');
     setMe({ email, password });
     localStorage.setItem('user-auth', JSON.stringify({ email, password }));
-    navigate('/home');
+    navigate('/');
   };
 
   function onChange(value) {

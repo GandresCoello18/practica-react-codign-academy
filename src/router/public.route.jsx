@@ -1,7 +1,7 @@
 import { Navigate, Outlet } from 'react-router-dom'
 
 const PublicRoute = ({ isAuth }) => {
-    return isAuth ? <Navigate to="/home" /> : <Outlet />;
+    return isAuth ? <Navigate to="/" /> : <Outlet />;
 }
 
 export default PublicRoute

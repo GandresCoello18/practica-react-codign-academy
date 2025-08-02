@@ -46,7 +46,7 @@ const ProductIdPage = () => {
         try {
             await deleteProductByIdAxios({ id: productId });
             toast.success('Producto eliminado');
-            navigate('/home');
+            navigate('/');
         } catch (error) {
             toast.error(error.message);
         } finally {
