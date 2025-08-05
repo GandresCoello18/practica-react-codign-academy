@@ -1,25 +1,25 @@
 import { Container, Row, Col, Form, Button, Card } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import * as Sentry from '@sentry/react';
-import { logEvent } from 'firebase/analytics';
+// import { logEvent } from 'firebase/analytics';
 import ReCAPTCHA from "react-google-recaptcha";
 import { signInWithPopup } from 'firebase/auth';
-import { auth, provider, analytics } from '../firebase/index.fireabase';
+import { auth, provider } from '../firebase/index.fireabase';
 import { toast } from 'sonner';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useState } from 'react';
 import { MeContext } from '../context/me.provider.context';
 
 function LoginView() {
   const { setMe } = useContext(MeContext);
-  const navigate = useNavigate(); // HOOKS
+  const navigate = useNavigate();
   const [form, setForm] = useState({
     email: '',
     password: '',
   });
 
-  useEffect(() => {
+  /*useEffect(() => {
     logEvent(analytics, 'login');
-  }, []);
+  }, []);*/
 
   const handleLogin = () => {
     console.log('presionasteis entrar ', form);
