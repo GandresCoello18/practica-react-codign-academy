@@ -7,6 +7,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { RouterApp } from './router/index';
 import { MeProviderContext } from './context/me.provider.context'
 import reportWebVitals from './reportWebVitals';
+import './sentry';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

@@ -1,8 +1,12 @@
 import { Container, Row, Col, Form, Button, Card } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
+import * as Sentry from '@sentry/react';
+import { logEvent } from 'firebase/analytics';
 import ReCAPTCHA from "react-google-recaptcha";
+import { signInWithPopup } from 'firebase/auth';
+import { auth, provider, analytics } from '../firebase/index.fireabase';
 import { toast } from 'sonner';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { MeContext } from '../context/me.provider.context';
 
 function LoginView() {
@@ -12,6 +16,10 @@ function LoginView() {
     email: '',
     password: '',
   });
+
+  useEffect(() => {
+    logEvent(analytics, 'login');
+  }, []);
 
   const handleLogin = () => {
     console.log('presionasteis entrar ', form);
@@ -40,6 +48,25 @@ function LoginView() {
 
   function onChange(value) {
     console.log("Captcha value:", value);
+  }
+
+  const handleLoginGoogle = async () => {
+    try {
+      const data = await signInWithPopup(auth, provider);
+      toast.info('Bienvenido');
+      const myUser = {
+        email: data.user.email,
+        uid: data.user.uid,
+        photoURL: data.user.photoURL,
+        displayName: data.user.displayName,
+      }
+      setMe(myUser);
+      localStorage.setItem('user-auth', JSON.stringify(myUser));
+      navigate('/');
+    } catch (error) {
+      Sentry.captureException(error);
+      toast.error(error.message);
+    }
   }
 
   return (
@@ -84,6 +111,12 @@ function LoginView() {
                       Entrar
                     </Button>
                   </Form>
+
+                  <hr />
+
+                  <Button onClick={handleLoginGoogle} className='w-100 py-2' variant="secondary" type="button">
+                    Entrar con GOOGLE
+                  </Button>
               </Card.Body>
           </Card>
         </Col>
